@@ -1,0 +1,2 @@
+user     seat0        2026-09-11 09:39 (login screen)
+user     tty2         2026-09-11 09:39 (tty2)
