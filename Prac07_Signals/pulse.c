@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+int main() {
+    int pid1, pid2;
+    pid1 = fork();
+    
+    if (pid1 == 0) {
+        while (1) {
+            printf("Pid1 is alive\n");
+            sleep(1);
+        }
+    } else {
+        pid2 = fork();
+        
+        if (pid2 == 0) {
+            while (1) {
+                printf("Pid2 is alive\n");
+                sleep(1);
+            }
+        } else {
+            sleep(3);
+            
+            printf("Parent: Stopping Pid1...\n");
+            kill(pid1, SIGSTOP); 
+            
+            sleep(3);
+            
+            printf("Parent: Continuing Pid1...\n");
+            kill(pid1, SIGCONT);
+            
+            sleep(3);
+            
+            printf("Parent: Killing both processes...\n");
+            kill(pid1, SIGINT);
+            kill(pid2, SIGINT);
+            
+            sleep(1); 
+        }
+    }
+    return 0;
+}
